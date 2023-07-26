@@ -1,4 +1,4 @@
-package com.example.zoostoreproject.api.operations.vendor.editVendorName;
+package com.example.zoostoreproject.api.operations.vendor.editVendorProperties;
 
 import com.example.zoostoreproject.api.operations.base.OperationInput;
 import jakarta.validation.constraints.NotBlank;
@@ -9,10 +9,9 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class EditVendorNameInput implements OperationInput {
+public class EditVendorPropertiesInput implements OperationInput {
 
-    @NotBlank(message = "Vendor id must not be blank!")
     private String vendorId;
-    @NotBlank(message = "Name must not be blank!")
     private String name;
+    private String phone;
 }

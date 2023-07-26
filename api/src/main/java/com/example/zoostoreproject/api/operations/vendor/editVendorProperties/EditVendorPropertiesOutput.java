@@ -1,4 +1,4 @@
-package com.example.zoostoreproject.api.operations.vendor.editVendorName;
+package com.example.zoostoreproject.api.operations.vendor.editVendorProperties;
 
 import com.example.zoostoreproject.api.operations.base.OperationResult;
 import lombok.*;
@@ -8,8 +8,9 @@ import lombok.*;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class EditVendorNameOutput implements OperationResult {
+public class EditVendorPropertiesOutput implements OperationResult {
 
     private String vendorId;
     private String name;
+    private String phone;
 }

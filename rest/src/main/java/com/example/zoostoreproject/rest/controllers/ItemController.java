@@ -9,15 +9,9 @@ import com.example.zoostoreproject.api.operations.item.archiveItem.ArchiveItemOp
 import com.example.zoostoreproject.api.operations.item.createItem.CreateItemInput;
 import com.example.zoostoreproject.api.operations.item.createItem.CreateItemOutput;
 import com.example.zoostoreproject.api.operations.item.createItem.CreateItemOperation;
-import com.example.zoostoreproject.api.operations.item.editItemDescription.EditDescriptionInput;
-import com.example.zoostoreproject.api.operations.item.editItemDescription.EditDescriptionOperation;
-import com.example.zoostoreproject.api.operations.item.editItemDescription.EditDescriptionOutput;
-import com.example.zoostoreproject.api.operations.item.editItemProductName.EditProductNameInput;
-import com.example.zoostoreproject.api.operations.item.editItemProductName.EditProductNameOutput;
-import com.example.zoostoreproject.api.operations.item.editItemProductName.EditProductNameOperation;
-import com.example.zoostoreproject.api.operations.item.editItemVendorId.EditVendorIdInput;
-import com.example.zoostoreproject.api.operations.item.editItemVendorId.EditVendorIdOperation;
-import com.example.zoostoreproject.api.operations.item.editItemVendorId.EditVendorIdOutput;
+import com.example.zoostoreproject.api.operations.item.editItemProperties.EditItemPropertiesInput;
+import com.example.zoostoreproject.api.operations.item.editItemProperties.EditItemPropertiesOperation;
+import com.example.zoostoreproject.api.operations.item.editItemProperties.EditItemPropertiesOutput;
 import com.example.zoostoreproject.api.operations.item.getAllItems.GetAllItemsListInput;
 import com.example.zoostoreproject.api.operations.item.getAllItems.GetAllItemsListOutput;
 import com.example.zoostoreproject.api.operations.item.getAllItems.GetAllItemsOperation;
@@ -36,8 +30,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.UUID;
-
 @RestController
 @RequestMapping(path = "/item")
 @RequiredArgsConstructor
@@ -46,9 +38,7 @@ public class ItemController {
 
     private final CreateItemOperation createItemOperation;
     private final ArchiveItemOperation archiveItemOperation;
-    private final EditProductNameOperation editProductNameOperation;
-    private final EditDescriptionOperation editDescriptionOperation;
-    private final EditVendorIdOperation editVendorIdOperation;
+    private final EditItemPropertiesOperation editItemPropertiesOperation;
     private final AddTagToItemOperation addTagToItemOperation;
     private final RemoveTagFromItemOperation removeTagFromItemOperation;
     private final GetAllItemsOperation getAllItemsOperation;
@@ -73,23 +63,12 @@ public class ItemController {
         return ResponseEntity.ok(response);
     }
 
-    @PatchMapping(path = "/productName")
-    public ResponseEntity<EditProductNameOutput> editProductName(@Valid @RequestBody EditProductNameInput input)  {
-        EditProductNameOutput response = editProductNameOperation.process(input);
+    @PatchMapping(path = "/properties")
+    public ResponseEntity<EditItemPropertiesOutput> editItemProperties(@Valid @RequestBody EditItemPropertiesInput input)  {
+        EditItemPropertiesOutput response = editItemPropertiesOperation.process(input);
         return ResponseEntity.ok(response);
     }
 
-    @PatchMapping(path = "/description")
-    public ResponseEntity<EditDescriptionOutput> editDescription(@Valid @RequestBody EditDescriptionInput input)  {
-        EditDescriptionOutput response = editDescriptionOperation.process(input);
-        return ResponseEntity.ok(response);
-    }
-
-    @PatchMapping(path = "/vendorId")
-    public ResponseEntity<EditVendorIdOutput> editVendorId(@Valid @RequestBody EditVendorIdInput input) {
-        EditVendorIdOutput response = editVendorIdOperation.process(input);
-        return ResponseEntity.ok(response);
-    }
 
     @PatchMapping(path = "/addTagToItem")
     public ResponseEntity<AddTagToItemOutput> addTagToItem(@Valid @RequestBody AddTagToItemInput input)  {
@@ -114,7 +93,7 @@ public class ItemController {
        return ResponseEntity.ok(response);
     }
 
-    @GetMapping(path = "/{itemID}")
+    @GetMapping(path = "/{id}")
     public ResponseEntity<GetItemByIdOutput> getItemByIdById(@PathVariable String id)  {
         GetItemByIdInput input = GetItemByIdInput.builder().id(id).build();
         GetItemByIdOutput response = getItemByIdOperation.process(input);

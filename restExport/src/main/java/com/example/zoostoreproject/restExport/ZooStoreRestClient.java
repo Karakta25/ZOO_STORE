@@ -7,12 +7,8 @@ import com.example.zoostoreproject.api.operations.item.archiveItem.ArchiveItemIn
 import com.example.zoostoreproject.api.operations.item.archiveItem.ArchiveItemOutput;
 import com.example.zoostoreproject.api.operations.item.createItem.CreateItemInput;
 import com.example.zoostoreproject.api.operations.item.createItem.CreateItemOutput;
-import com.example.zoostoreproject.api.operations.item.editItemDescription.EditDescriptionInput;
-import com.example.zoostoreproject.api.operations.item.editItemDescription.EditDescriptionOutput;
-import com.example.zoostoreproject.api.operations.item.editItemProductName.EditProductNameInput;
-import com.example.zoostoreproject.api.operations.item.editItemProductName.EditProductNameOutput;
-import com.example.zoostoreproject.api.operations.item.editItemVendorId.EditVendorIdInput;
-import com.example.zoostoreproject.api.operations.item.editItemVendorId.EditVendorIdOutput;
+import com.example.zoostoreproject.api.operations.item.editItemProperties.EditItemPropertiesInput;
+import com.example.zoostoreproject.api.operations.item.editItemProperties.EditItemPropertiesOutput;
 import com.example.zoostoreproject.api.operations.item.getAllItems.GetAllItemsListInput;
 import com.example.zoostoreproject.api.operations.item.getAllItems.GetAllItemsListOutput;
 import com.example.zoostoreproject.api.operations.item.getItemById.GetItemByIdOutput;
@@ -28,7 +24,7 @@ import feign.RequestLine;
 public interface ZooStoreRestClient {
 
 
-   @RequestLine("GET /item/{itemID}")
+   @RequestLine("GET /item/{id}")
    GetItemByIdOutput getItemById(@Param String id);
 
    @RequestLine("POST /item")
@@ -37,14 +33,8 @@ public interface ZooStoreRestClient {
    @RequestLine("PATCH /item/archiveStatus")
    ArchiveItemOutput archiveItem(@Param ArchiveItemInput input);
 
-   @RequestLine("PATCH /item/productName")
-   EditProductNameOutput editProductName(@Param EditProductNameInput input);
-
-   @RequestLine("GET /item/description")
-   EditDescriptionOutput editDescription(@Param EditDescriptionInput input);
-
-   @RequestLine("GET /item/vendorId")
-   EditVendorIdOutput editVendorId(@Param EditVendorIdInput input);
+   @RequestLine("PATCH /item/properties")
+   EditItemPropertiesOutput editItemProperties(@Param EditItemPropertiesInput input);
 
    @RequestLine("PATCH /item/addTagToItem")
    AddTagToItemOutput addTagToItem(@Param AddTagToItemInput input);

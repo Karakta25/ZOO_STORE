@@ -1,7 +1,5 @@
 package com.example.zoostoreproject.core.vendorOperations.editVendorPhone;
 
-import com.example.zoostoreproject.api.operations.vendor.editVendorName.EditVendorNameInput;
-import com.example.zoostoreproject.api.operations.vendor.editVendorName.EditVendorNameOutput;
 import com.example.zoostoreproject.api.operations.vendor.editVendorPhone.EditVendorPhoneInput;
 import com.example.zoostoreproject.api.operations.vendor.editVendorPhone.EditVendorPhoneOutput;
 import com.example.zoostoreproject.api.operations.vendor.editVendorPhone.EditVendorPhoneOperation;
