@@ -13,10 +13,9 @@ import com.example.zoostoreproject.persistence.repositories.ItemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -25,55 +24,60 @@ public class GetAllItemsOperationProcessor implements GetAllItemsOperation {
     @Override
     public GetAllItemsListOutput process(GetAllItemsListInput input) {
 
-        List<Item> itemsList = itemRepository.findAll();
-
-        List<GetItemPropertiesOutput> items = new ArrayList<>();
-
-        Set<GetMultimediaPropertiesOutput> multimedia = new HashSet<>();
-        Set<GetTagPropertiesOutput> tags = new HashSet<>();
-
-        for(Item item: itemsList)
-        {
-            for(Multimedia media : item.getMultimedia())
-            {
-                GetMultimediaPropertiesOutput getMultimediaPropertiesOutput
-                        = GetMultimediaPropertiesOutput.builder()
-                        .mediaID(media.getId().toString())
-                        .url(media.getUrl()).build();
-
-                multimedia.add(getMultimediaPropertiesOutput);
-            }
-
-            for(Tag tag : item.getTags())
-            {
-                GetTagPropertiesOutput getTagPropertiesOutput
-                        = GetTagPropertiesOutput.builder()
-                        .tagId(tag.getId().toString())
-                        .title(tag.getTitle())
-                        .build();
-
-                tags.add(getTagPropertiesOutput);
-            }
-
-            GetItemPropertiesOutput getItemPropertiesOutput =
-                    GetItemPropertiesOutput.builder()
-                            .id(item.getId().toString())
-                            .productName(item.getDescription())
-                            .description(item.getDescription())
-                            .archived(item.isArchived())
-                            .vendorId(item.getVendor().getId().toString())
-                            .multimedia(multimedia)
-                            .tags(tags)
-                            .build();
+        List<GetItemPropertiesOutput> items = itemRepository.findAll()
+                .stream()
+                .map(this::mapItemEntityToGetItemPropertiesOutput)
+                .toList();
 
 
-            items.add(getItemPropertiesOutput);
-        }
+        return  GetAllItemsListOutput.builder()
+                .itemslist(items)
+                .build();
+    }
 
-        return GetAllItemsListOutput.builder().itemslist(items).build();
+    private GetItemPropertiesOutput mapItemEntityToGetItemPropertiesOutput(Item item)
+    {
+        return  GetItemPropertiesOutput
+                .builder()
+                .id(item.getId().toString())
+                .productName(item.getProductName())
+                .description(item.getDescription())
+                .vendorName(item.getVendor().getName())
+                .multimedia(mapMultimediaEntityToGetMultimediaPropertiesOutputSet(item.getMultimedia()))
+                .tags(mapTagEntityToGetTagPropertiesOutputSet(item.getTags()))
+                .archived(item.isArchived())
+                .build();
+
+    }
+
+    private Set<GetMultimediaPropertiesOutput> mapMultimediaEntityToGetMultimediaPropertiesOutputSet(Set<Multimedia> multimedia)
+    {
+        return multimedia
+                .stream()
+                .map(this::mapMultimediaEntityToGetMultimediaPropertiesOutput)
+                .collect(Collectors.toSet());
+    }
+    private GetMultimediaPropertiesOutput mapMultimediaEntityToGetMultimediaPropertiesOutput(Multimedia multimedia)
+    {
+        return GetMultimediaPropertiesOutput.builder()
+                .mediaID(multimedia.getId().toString())
+                .url(multimedia.getUrl())
+                .build();
+    }
 
 
-
-
+    private Set<GetTagPropertiesOutput> mapTagEntityToGetTagPropertiesOutputSet(Set<Tag> tag)
+    {
+        return tag
+                .stream()
+                .map(this::mapTagEntityToGetMultimediaPropertiesOutput)
+                .collect(Collectors.toSet());
+    }
+    private GetTagPropertiesOutput mapTagEntityToGetMultimediaPropertiesOutput(Tag tag)
+    {
+        return GetTagPropertiesOutput.builder()
+                .tagId(tag.getId().toString())
+                .title(tag.getTitle())
+                .build();
     }
 }

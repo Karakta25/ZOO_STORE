@@ -21,21 +21,15 @@ public class ArchiveItemOperationProcessor implements ArchiveItemOperation {
     @Override
     public ArchiveItemOutput process(ArchiveItemInput input) {
 
-        Optional<Item> optionalItem = itemRepository.findById(UUID.fromString(input.getItemID()));
-
-        if(!optionalItem.isPresent())
-            throw new NoSuchItemException();
-
-        Item item = optionalItem.get();
+        Item item = itemRepository.findById(UUID.fromString(input.getItemID()))
+                .orElseThrow(NoSuchItemException::new);
 
         item.setArchived(input.getArchived());
         itemRepository.save(item);
 
-        ArchiveItemOutput archiveItemOutput = ArchiveItemOutput.builder()
+        return ArchiveItemOutput.builder()
                 .itemID(item.getId().toString())
                 .archived(item.isArchived())
                 .build();
-
-        return archiveItemOutput;
     }
 }

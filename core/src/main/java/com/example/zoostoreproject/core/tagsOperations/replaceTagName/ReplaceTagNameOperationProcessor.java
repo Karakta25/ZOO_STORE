@@ -21,11 +21,8 @@ public class ReplaceTagNameOperationProcessor implements ReplaceTagNameOperation
     public ReplaceTagNameOutput process(ReplaceTagNameInput input) {
 
 
-        Optional<Tag> tagOptional = tagRepository.findById(UUID.fromString(input.getTagID()));
-        if(!tagOptional.isPresent())
-            throw new NoSuchTagException();
-
-        Tag tag = tagOptional.get();
+        Tag tag = tagRepository.findById(UUID.fromString(input.getTagID()))
+                .orElseThrow(NoSuchTagException::new);
 
         tag.setTitle(input.getTitle());
 

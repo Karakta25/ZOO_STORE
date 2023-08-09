@@ -20,11 +20,8 @@ public class ReplaceItemMultimediaOperationProcessor implements ReplaceItemMulti
     @Override
     public ReplaceItemMultimediaOutput process(ReplaceItemMultimediaInput input) {
 
-        Optional<Multimedia> optionalMultimedia = multimediaRepository.findById(UUID.fromString(input.getMediaID()));
-        if(!optionalMultimedia.isPresent())
-            throw new NoSuchMultimediaException();
-        Multimedia multimedia = optionalMultimedia.get();
-
+        Multimedia multimedia = multimediaRepository.findById(UUID.fromString(input.getMediaID()))
+                .orElseThrow(NoSuchMultimediaException::new);
 
         multimedia.setUrl(input.getUrl());
 

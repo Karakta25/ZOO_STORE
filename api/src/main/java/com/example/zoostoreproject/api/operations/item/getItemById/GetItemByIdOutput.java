@@ -21,3 +21,4 @@ public class GetItemByIdOutput implements OperationResult {
     private Set<GetTagPropertiesOutput> tags;
     private boolean archived;
 }
+

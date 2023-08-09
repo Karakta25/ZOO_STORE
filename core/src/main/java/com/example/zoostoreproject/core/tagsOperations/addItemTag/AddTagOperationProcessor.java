@@ -16,6 +16,7 @@ public class AddTagOperationProcessor implements AddTagOperation {
 
     @Override
     public AddTagOutput process(AddTagInput input) {
+
         Tag tag = Tag.builder()
                 .title(input.getTitle())
                 .build();

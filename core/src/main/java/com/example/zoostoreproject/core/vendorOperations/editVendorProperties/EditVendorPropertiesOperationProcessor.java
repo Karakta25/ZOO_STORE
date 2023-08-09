@@ -21,11 +21,8 @@ public class EditVendorPropertiesOperationProcessor implements EditVendorPropert
     @Override
     public EditVendorPropertiesOutput process(EditVendorPropertiesInput input) {
 
-            Optional<Vendor> vendorOptional = vendorRepository.findById(UUID.fromString(input.getVendorId()));
-            if(!vendorOptional.isPresent())
-                throw new NoSuchVendorException();
-
-            Vendor vendor = vendorOptional.get();
+            Vendor vendor = vendorRepository.findById(UUID.fromString(input.getVendorId()))
+                    .orElseThrow(NoSuchVendorException::new);
 
             if(!input.getName().isBlank())
                 vendor.setName(input.getName());

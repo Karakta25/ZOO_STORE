@@ -27,18 +27,16 @@ public class AddItemMultimediaOperationProcessor implements AddItemMultimediaOpe
     public AddItemMultimediaOutput process(AddItemMultimediaInput input) {
 
 
-        Optional<Item> optionalItem = itemRepository.findById(UUID.fromString(input.getItemID()));
+        Item item = itemRepository.findById(UUID.fromString(input.getItemID()))
+                .orElseThrow(NoSuchItemException::new);;
 
-        if(!optionalItem.isPresent())
-            throw new NoSuchItemException();
-
-        Item item = optionalItem.get();
         Multimedia multimedia = Multimedia.builder()
                                           .url(input.getUrl())
                                           .item(item)
                                           .build();
 
         multimediaRepository.save(multimedia);
+
         return AddItemMultimediaOutput.builder()
                 .multimediaID(multimedia.getId().toString())
                 .build();

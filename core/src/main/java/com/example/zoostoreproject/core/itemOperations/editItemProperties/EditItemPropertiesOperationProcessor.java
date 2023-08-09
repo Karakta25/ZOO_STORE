@@ -28,16 +28,11 @@ public class EditItemPropertiesOperationProcessor implements EditItemPropertiesO
     public EditItemPropertiesOutput process(EditItemPropertiesInput input) {
 
 
-        Optional<Item> optionalItem = itemRepository.findById(UUID.fromString(input.getItemID()));
-        if(!optionalItem.isPresent())
-            throw new NoSuchItemException();
+        Item item = itemRepository.findById(UUID.fromString(input.getItemID()))
+                .orElseThrow(NoSuchItemException::new);
 
-        Optional<Vendor> optionalVendor = vendorRepository.findById(UUID.fromString(input.getVendorId()));
-        if(!optionalVendor.isPresent())
-            throw new NoSuchVendorException();
-
-        Item item = optionalItem.get();
-        Vendor vendor = optionalVendor.get();
+        Vendor vendor = vendorRepository.findById(UUID.fromString(input.getVendorId()))
+                .orElseThrow(NoSuchVendorException::new);
 
         if(!input.getDescription().isBlank())
             item.setDescription(input.getDescription());
@@ -45,7 +40,6 @@ public class EditItemPropertiesOperationProcessor implements EditItemPropertiesO
             item.setProductName(input.getProductName());
 
         item.setVendor(vendor);
-
         itemRepository.save(item);
 
         return EditItemPropertiesOutput.builder()

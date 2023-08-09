@@ -28,13 +28,8 @@ public class CreateItemOperationProcessor implements CreateItemOperation {
     @Override
     public CreateItemOutput process(CreateItemInput input) {
 
-        Optional<Vendor> optionalVendor = vendorRepository.findById(UUID.fromString(input.getVendorID()));
-
-        if(!optionalVendor.isPresent())
-            throw new NoSuchVendorException();
-
-
-        Vendor vendor = optionalVendor.get();
+        Vendor vendor = vendorRepository.findById(UUID.fromString(input.getVendorID()))
+                .orElseThrow(NoSuchVendorException::new);
 
         Item item = Item.builder()
                 .productName(input.getProductName())

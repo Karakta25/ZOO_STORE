@@ -4,6 +4,7 @@ import com.example.zoostoreproject.api.operations.base.OperationResult;
 import com.example.zoostoreproject.api.operations.item.GetItemPropertiesOutput;
 import lombok.*;
 
+import java.util.List;
 import java.util.Set;
 
 @Getter

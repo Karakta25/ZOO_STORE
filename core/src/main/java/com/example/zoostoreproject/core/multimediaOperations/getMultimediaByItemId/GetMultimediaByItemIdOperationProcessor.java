@@ -15,6 +15,7 @@ import java.util.HashSet;
 import java.util.Optional;
 import java.util.Set;
 import java.util.UUID;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -26,20 +27,18 @@ public class GetMultimediaByItemIdOperationProcessor implements GetMultimediaByI
     @Override
     public GetMultimediaByItemIdOutput process(GetMultimediaByItemIdInput input) {
 
-        Optional<Item> optionalItem = itemRepository.findById(UUID.fromString(input.getItemID()));
-        if(!optionalItem.isPresent())
-            throw new NoSuchItemException();
+        Item item = itemRepository.findById(UUID.fromString(input.getItemID()))
+                .orElseThrow(NoSuchItemException::new);
 
-        Item item = optionalItem.get();
+        Set<String> mediaIds = item.getMultimedia()
+                .stream()
+                .map(media -> media.getId().toString())
+                .collect(Collectors.toSet());
 
-        Set<String> mediaIds = new HashSet<>();
-        Set<String> urls = new HashSet<>();
-
-        for(Multimedia media : item.getMultimedia())
-        {
-            mediaIds.add(media.getId().toString());
-            urls.add(media.getUrl());
-        }
+        Set<String> urls = item.getMultimedia()
+                .stream()
+                .map(Multimedia::getUrl)
+                .collect(Collectors.toSet());
 
         return GetMultimediaByItemIdOutput.builder()
                 .mediaID(mediaIds)

@@ -11,6 +11,7 @@ import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
@@ -23,18 +24,16 @@ public class GetAllItemTagsOperationProcessor implements GetAllItemTagsOperation
 
         List<Tag> tagsList = tagRepository.findAll();
 
-        List<GetTagPropertiesOutput> tags = new ArrayList<>();
+        List<GetTagPropertiesOutput> tags = tagsList
+                                                .stream()
+                                                .map(tag -> GetTagPropertiesOutput.builder()
+                                                        .tagId(tag.getId().toString())
+                                                        .title(tag.getTitle())
+                                                        .build())
+                                                .collect(Collectors.toList());
 
-        for(Tag tag: tagsList)
-        {
-            GetTagPropertiesOutput getTagPropertiesOutput = GetTagPropertiesOutput.builder()
-                    .tagId(tag.getId().toString())
-                    .title(tag.getTitle())
-                    .build();
-
-            tags.add(getTagPropertiesOutput);
-        }
-
-        return GetAllItemTagsOutput.builder().tagsList(tags).build();
+        return GetAllItemTagsOutput.builder()
+                .tagsList(tags)
+                .build();
     }
 }

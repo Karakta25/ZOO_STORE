@@ -21,7 +21,7 @@ public class Item {
     @Column(name = "id")
     private UUID id;
 
-    @Column(name = "product name", nullable = false,unique = true)
+    @Column(name = "product_name", nullable = false,unique = true)
     private String productName;
 
     @Column(name = "description", nullable = false)
@@ -31,11 +31,9 @@ public class Item {
     @JoinColumn(name = "vendor_id", nullable = false)
     private Vendor vendor;
 
-    @Column(name = "multimedia")
     @OneToMany(mappedBy = "item")
     private Set<Multimedia> multimedia;
 
-    @Column(name = "tag")
     @ManyToMany
     @JoinTable(
             name = "item_tag",

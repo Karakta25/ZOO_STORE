@@ -23,12 +23,8 @@ public class GetMultimediaByIdOperationProcessor implements GetMultimediaByIdOpe
     @Override
     public GetMultimediaByIdOutput process(GetMultimediaByIdInput input) {
 
-        Optional<Multimedia> optionalMultimedia = multimediaRepository.findById(UUID.fromString(input.getMediaID()));
-        if(!optionalMultimedia.isPresent())
-            throw new NoSuchMultimediaException();
-
-
-        Multimedia multimedia = optionalMultimedia.get();
+        Multimedia multimedia = multimediaRepository.findById(UUID.fromString(input.getMediaID()))
+                .orElseThrow(NoSuchMultimediaException::new);
 
         return GetMultimediaByIdOutput.builder()
                 .mediaID(multimedia.getId().toString())

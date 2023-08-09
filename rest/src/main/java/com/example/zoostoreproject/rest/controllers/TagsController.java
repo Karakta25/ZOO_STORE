@@ -21,8 +21,6 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.UUID;
-
 @RestController
 @RequestMapping(path = "/tag")
 @RequiredArgsConstructor
@@ -33,6 +31,7 @@ public class TagsController {
     private final ReplaceTagNameOperation replaceTagNameOperation;
     private final GetAllItemTagsOperation getAllItemTagsOperation;
     private final GetItemTagByIdOperation getItemTagByIdOperation;
+
 
 
 
@@ -58,13 +57,14 @@ public class TagsController {
         return ResponseEntity.ok(response);
     }
 
-    @GetMapping(path = "/{tagID}")
-    public ResponseEntity<GetItemTagByIdOutput> getItemTagById(@RequestParam UUID Id) {
+    @GetMapping(path = "/{id}")
+    public ResponseEntity<GetItemTagByIdOutput> getItemTagById(@PathVariable String id) {
 
-        GetItemTagByIdInput input = GetItemTagByIdInput.builder().tagID(Id.toString()).build();
+        GetItemTagByIdInput input = GetItemTagByIdInput.builder().tagID(id.toString()).build();
        GetItemTagByIdOutput response = getItemTagByIdOperation.process(input);
         return ResponseEntity.ok(response);
     }
+
 
     @PatchMapping(path = "/replaceTagName")
     public ResponseEntity<ReplaceTagNameOutput> replaceTagNameOutput(@Valid @RequestBody ReplaceTagNameInput input) {

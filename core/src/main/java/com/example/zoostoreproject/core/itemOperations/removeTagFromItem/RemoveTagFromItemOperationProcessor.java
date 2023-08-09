@@ -24,16 +24,11 @@ public class RemoveTagFromItemOperationProcessor implements RemoveTagFromItemOpe
     @Override
     public RemoveTagFromItemOutput process(RemoveTagFromItemInput input)  {
 
-        Optional<Item> optionalItem = itemRepository.findById(UUID.fromString(input.getItemId()));
-        if(!optionalItem.isPresent())
-            throw new NoSuchItemException();
+        Item item = itemRepository.findById(UUID.fromString(input.getItemId()))
+                .orElseThrow(NoSuchItemException::new);
 
-        Optional<Tag> optionalTag = tagRepository.findByTitle(input.getTitle());
-        if(!optionalTag.isPresent())
-            throw new NoSuchTagException();
-
-        Item item = optionalItem.get();
-        Tag tag = optionalTag.get();
+        Tag tag = tagRepository.findByTitle(input.getTitle())
+                .orElseThrow(NoSuchTagException::new);
 
 
         item.getTags().remove(tag);
@@ -44,5 +39,5 @@ public class RemoveTagFromItemOperationProcessor implements RemoveTagFromItemOpe
                 .title(tag.getTitle())
                 .build();
     }
-    }
+}
 

@@ -20,11 +20,8 @@ public class RemoveItemTagOperationProcessor implements RemoveItemTagsOperation 
     @Override
     public RemoveItemTagsOutput process(RemoveItemTagsInput input) {
 
-        Optional<Tag> optionalTag = tagRepository.findById(UUID.fromString(input.getTagID()));
-        if(!optionalTag.isPresent())
-            throw new NoSuchTagException();
-
-        Tag tag = optionalTag.get();
+        Tag tag = tagRepository.findById(UUID.fromString(input.getTagID()))
+                .orElseThrow(NoSuchTagException::new);
 
         tagRepository.delete(tag);
 

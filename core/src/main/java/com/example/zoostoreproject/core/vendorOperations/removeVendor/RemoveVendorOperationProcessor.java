@@ -21,11 +21,9 @@ public class RemoveVendorOperationProcessor implements RemoveVendorOperation {
 
     @Override
     public RemoveVendorOutput process(RemoveVendorInput input)  {
-        Optional<Vendor> vendorOptional  = vendorRepository.findById(UUID.fromString(input.getId()));
-        if(!vendorOptional.isPresent())
-            throw new NoSuchVendorException();
 
-        Vendor vendor = vendorOptional.get();
+        Vendor vendor = vendorRepository.findById(UUID.fromString(input.getId()))
+                .orElseThrow(NoSuchVendorException::new);
 
         if(!vendor.getItems().isEmpty())
             throw new VendorCannotBeDeletedException();

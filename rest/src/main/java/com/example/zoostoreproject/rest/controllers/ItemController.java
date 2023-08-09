@@ -15,10 +15,15 @@ import com.example.zoostoreproject.api.operations.item.editItemProperties.EditIt
 import com.example.zoostoreproject.api.operations.item.getAllItems.GetAllItemsListInput;
 import com.example.zoostoreproject.api.operations.item.getAllItems.GetAllItemsListOutput;
 import com.example.zoostoreproject.api.operations.item.getAllItems.GetAllItemsOperation;
+import com.example.zoostoreproject.api.operations.item.getCartItemProperties.GetCartItemPropertiesInput;
+import com.example.zoostoreproject.api.operations.item.getCartItemProperties.GetCartItemPropertiesOperation;
+import com.example.zoostoreproject.api.operations.item.getCartItemProperties.GetCartItemPropertiesOutput;
+import com.example.zoostoreproject.api.operations.item.getItemByDescription.GetItemByDescriptionInput;
+import com.example.zoostoreproject.api.operations.item.getItemByDescription.GetItemByDescriptionOperation;
 import com.example.zoostoreproject.api.operations.item.getItemById.GetItemByIdInput;
 import com.example.zoostoreproject.api.operations.item.getItemById.GetItemByIdOperation;
 import com.example.zoostoreproject.api.operations.item.getItemById.GetItemByIdOutput;
-
+import com.example.zoostoreproject.api.operations.item.getItemByDescription.GetItemByDescriptionOutput;
 import com.example.zoostoreproject.api.operations.item.removeTagFromItem.RemoveTagFromItemInput;
 import com.example.zoostoreproject.api.operations.item.removeTagFromItem.RemoveTagFromItemOperation;
 import com.example.zoostoreproject.api.operations.item.removeTagFromItem.RemoveTagFromItemOutput;
@@ -43,35 +48,37 @@ public class ItemController {
     private final RemoveTagFromItemOperation removeTagFromItemOperation;
     private final GetAllItemsOperation getAllItemsOperation;
     private final GetItemByIdOperation getItemByIdOperation;
+    private final GetItemByDescriptionOperation getItemByDescriptionOperation;
+    private final GetCartItemPropertiesOperation getCartItemPropertiesOperation;
 
 
     @PostMapping()
-    @Operation ()
+    @Operation()
     @ApiResponses(value = {
             @ApiResponse(responseCode = "400", description = "Invalid ID supplied"),
             @ApiResponse(responseCode = "404", description = "Customer not found")})
 
 
-    public ResponseEntity<CreateItemOutput> createItem(@Valid @RequestBody CreateItemInput input)  {
-       CreateItemOutput response = createItemOperation.process(input);
+    public ResponseEntity<CreateItemOutput> createItem(@Valid @RequestBody CreateItemInput input) {
+        CreateItemOutput response = createItemOperation.process(input);
         return ResponseEntity.status(201).body(response);
     }
 
     @PatchMapping(path = "/archiveStatus")
-    public ResponseEntity<ArchiveItemOutput> archiveItem(@Valid @RequestBody ArchiveItemInput input)  {
+    public ResponseEntity<ArchiveItemOutput> archiveItem(@Valid @RequestBody ArchiveItemInput input) {
         ArchiveItemOutput response = archiveItemOperation.process(input);
         return ResponseEntity.ok(response);
     }
 
     @PatchMapping(path = "/properties")
-    public ResponseEntity<EditItemPropertiesOutput> editItemProperties(@Valid @RequestBody EditItemPropertiesInput input)  {
+    public ResponseEntity<EditItemPropertiesOutput> editItemProperties(@Valid @RequestBody EditItemPropertiesInput input) {
         EditItemPropertiesOutput response = editItemPropertiesOperation.process(input);
         return ResponseEntity.ok(response);
     }
 
 
     @PatchMapping(path = "/addTagToItem")
-    public ResponseEntity<AddTagToItemOutput> addTagToItem(@Valid @RequestBody AddTagToItemInput input)  {
+    public ResponseEntity<AddTagToItemOutput> addTagToItem(@Valid @RequestBody AddTagToItemInput input) {
         AddTagToItemOutput response = addTagToItemOperation.process(input);
         return ResponseEntity.ok(response);
     }
@@ -89,14 +96,34 @@ public class ItemController {
     @GetMapping(path = "/getAll")
     public ResponseEntity<GetAllItemsListOutput> getAllItems(@Valid @RequestBody GetAllItemsListInput input) {
 
-       GetAllItemsListOutput response = getAllItemsOperation.process(input);
-       return ResponseEntity.ok(response);
+        GetAllItemsListOutput response = getAllItemsOperation.process(input);
+        return ResponseEntity.ok(response);
     }
 
     @GetMapping(path = "/{id}")
-    public ResponseEntity<GetItemByIdOutput> getItemByIdById(@PathVariable String id)  {
+    public ResponseEntity<GetItemByIdOutput> getItemByIdById(@PathVariable String id) {
         GetItemByIdInput input = GetItemByIdInput.builder().id(id).build();
         GetItemByIdOutput response = getItemByIdOperation.process(input);
+        return ResponseEntity.ok(response);
+    }
+    @PostMapping(path = "/{cartItemProperties}")
+    public ResponseEntity<GetCartItemPropertiesOutput> getCartItemProperties(@Valid @RequestBody GetCartItemPropertiesInput input) {
+        GetCartItemPropertiesOutput response = getCartItemPropertiesOperation.process(input);
+        return ResponseEntity.ok(response);
+    }
+    @GetMapping(path = "/tagTitle")
+    public ResponseEntity<GetItemByDescriptionOutput> getItemByTitleTag(
+            @RequestParam(name = "title") String title,
+            @RequestParam(name = "itemsPerPage") Integer itemsPerPage,
+            @RequestParam(name = "currentPage") Integer currentPage) {
+
+        GetItemByDescriptionInput input = GetItemByDescriptionInput.builder()
+                .regex(title)
+                .itemCount(itemsPerPage)
+                .page(currentPage)
+                .build();
+
+        GetItemByDescriptionOutput response = getItemByDescriptionOperation.process(input);
         return ResponseEntity.ok(response);
     }
 

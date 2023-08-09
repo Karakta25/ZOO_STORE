@@ -1,21 +1,18 @@
-package com.example.zoostoreproject.core.vendorOperations.getAllVendors;
+package com.example.zoostoreproject.core.itemOperations.getCartItemProperties;
 
 import com.example.zoostoreproject.api.operations.item.GetItemPropertiesOutput;
+import com.example.zoostoreproject.api.operations.item.getCartItemProperties.GetCartItemPropertiesInput;
+import com.example.zoostoreproject.api.operations.item.getCartItemProperties.GetCartItemPropertiesOperation;
+import com.example.zoostoreproject.api.operations.item.getCartItemProperties.GetCartItemPropertiesOutput;
 import com.example.zoostoreproject.api.operations.multimedia.GetMultimediaPropertiesOutput;
 import com.example.zoostoreproject.api.operations.tags.GetTagPropertiesOutput;
-import com.example.zoostoreproject.api.operations.vendor.GetVendorPropertiesOutput;
-import com.example.zoostoreproject.api.operations.vendor.getAllVendors.GetAllVendorsInput;
-import com.example.zoostoreproject.api.operations.vendor.getAllVendors.GetAllVendorsOutput;
-import com.example.zoostoreproject.api.operations.vendor.getAllVendors.GetAllVendorsOperation;
-
+import com.example.zoostoreproject.core.exception.item.NoSuchItemException;
 import com.example.zoostoreproject.persistence.entities.Item;
 import com.example.zoostoreproject.persistence.entities.Multimedia;
 import com.example.zoostoreproject.persistence.entities.Tag;
-import com.example.zoostoreproject.persistence.entities.Vendor;
-import com.example.zoostoreproject.persistence.repositories.VendorRepository;
+import com.example.zoostoreproject.persistence.repositories.ItemRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
-
 
 import java.util.List;
 import java.util.Set;
@@ -23,39 +20,26 @@ import java.util.stream.Collectors;
 
 @Service
 @RequiredArgsConstructor
-public class GetAllVendorsOperationProcessor implements GetAllVendorsOperation {
+public class GetCartItemPropertiesOperationProcessor implements GetCartItemPropertiesOperation {
 
-    private final VendorRepository vendorRepository;
+    private final ItemRepository itemRepository;
     @Override
-    public GetAllVendorsOutput process(GetAllVendorsInput input) {
+    public GetCartItemPropertiesOutput process(GetCartItemPropertiesInput input) {
 
-        List<GetVendorPropertiesOutput> vendors = vendorRepository.findAll()
+
+        List<GetItemPropertiesOutput> items = input.getItemsId()
                 .stream()
-                .map(this::mapVendorEntityToGetVendorPropertiesOutput)
+                .map(itemId -> itemRepository.findById(itemId)
+                        .orElseThrow(NoSuchItemException::new))
+                .map(this::mapItemEntityToGetItemPropertiesOutput)
                 .collect(Collectors.toList());
 
-        return GetAllVendorsOutput.builder()
-                .vendorslist(vendors).build();
-    }
-
-    private GetVendorPropertiesOutput mapVendorEntityToGetVendorPropertiesOutput(Vendor vendor)
-    {
-        return GetVendorPropertiesOutput.builder()
-                .id(vendor.getId().toString())
-                .name(vendor.getName())
-                .phone(vendor.getPhone())
-                .items(getAllItems(vendor))
+        return  GetCartItemPropertiesOutput.builder()
+                .itemsList(items)
                 .build();
 
     }
 
-    private Set<GetItemPropertiesOutput> getAllItems(Vendor vendor)
-    {
-        return   vendor.getItems()
-                .stream()
-                .map(this::mapItemEntityToGetItemPropertiesOutput)
-                .collect(Collectors.toSet());
-    }
     private GetItemPropertiesOutput mapItemEntityToGetItemPropertiesOutput(Item item)
     {
         return  GetItemPropertiesOutput

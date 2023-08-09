@@ -20,11 +20,8 @@ public class RemoveItemMultimediaOperationProcessor implements RemoveItemMultime
     @Override
     public RemoveItemMultimediaOutput process(RemoveItemMultimediaInput input) {
 
-        Optional<Multimedia> optionalMultimedia = multimediaRepository.findById(UUID.fromString(input.getMediaID()));
-        if(!optionalMultimedia.isPresent())
-            throw new NoSuchMultimediaException();
-
-        Multimedia multimedia = optionalMultimedia.get();
+        Multimedia multimedia = multimediaRepository.findById(UUID.fromString(input.getMediaID()))
+                .orElseThrow(NoSuchMultimediaException::new);
 
         multimediaRepository.delete(multimedia);
 

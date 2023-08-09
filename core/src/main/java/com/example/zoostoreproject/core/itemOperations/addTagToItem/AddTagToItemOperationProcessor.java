@@ -25,21 +25,11 @@ public class AddTagToItemOperationProcessor implements AddTagToItemOperation {
     @Override
     public AddTagToItemOutput process(AddTagToItemInput input)  {
 
-        Optional<Item> optionalItem = itemRepository.findById(UUID.fromString(input.getItemId()));
+        Item item = itemRepository.findById(UUID.fromString(input.getItemId()))
+                .orElseThrow(NoSuchItemException::new);
 
-        if(!optionalItem.isPresent())
-            throw new NoSuchItemException();
-
-        Item item = optionalItem.get();
-
-
-        Optional<Tag> optionalTag = tagRepository.findByTitle(input.getTitle());
-
-        if(!optionalTag.isPresent())
-            throw new NoSuchTagException();
-
-        Tag tag = optionalTag.get();
-
+        Tag tag = tagRepository.findByTitle(input.getTitle())
+                .orElseThrow(NoSuchTagException::new);
 
         item.getTags().add(tag);
         itemRepository.save(item);
