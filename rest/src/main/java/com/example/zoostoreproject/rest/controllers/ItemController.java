@@ -1,32 +1,38 @@
 package com.example.zoostoreproject.rest.controllers;
 
-import com.example.zoostoreproject.api.operations.item.addTagToItem.AddTagToItemInput;
-import com.example.zoostoreproject.api.operations.item.addTagToItem.AddTagToItemOperation;
-import com.example.zoostoreproject.api.operations.item.addTagToItem.AddTagToItemOutput;
-import com.example.zoostoreproject.api.operations.item.archiveItem.ArchiveItemInput;
-import com.example.zoostoreproject.api.operations.item.archiveItem.ArchiveItemOutput;
-import com.example.zoostoreproject.api.operations.item.archiveItem.ArchiveItemOperation;
-import com.example.zoostoreproject.api.operations.item.createItem.CreateItemInput;
-import com.example.zoostoreproject.api.operations.item.createItem.CreateItemOutput;
-import com.example.zoostoreproject.api.operations.item.createItem.CreateItemOperation;
-import com.example.zoostoreproject.api.operations.item.editItemProperties.EditItemPropertiesInput;
-import com.example.zoostoreproject.api.operations.item.editItemProperties.EditItemPropertiesOperation;
-import com.example.zoostoreproject.api.operations.item.editItemProperties.EditItemPropertiesOutput;
-import com.example.zoostoreproject.api.operations.item.getAllItems.GetAllItemsListInput;
-import com.example.zoostoreproject.api.operations.item.getAllItems.GetAllItemsListOutput;
-import com.example.zoostoreproject.api.operations.item.getAllItems.GetAllItemsOperation;
-import com.example.zoostoreproject.api.operations.item.getCartItemProperties.GetCartItemPropertiesInput;
-import com.example.zoostoreproject.api.operations.item.getCartItemProperties.GetCartItemPropertiesOperation;
-import com.example.zoostoreproject.api.operations.item.getCartItemProperties.GetCartItemPropertiesOutput;
-import com.example.zoostoreproject.api.operations.item.getItemByDescription.GetItemByDescriptionInput;
-import com.example.zoostoreproject.api.operations.item.getItemByDescription.GetItemByDescriptionOperation;
-import com.example.zoostoreproject.api.operations.item.getItemById.GetItemByIdInput;
-import com.example.zoostoreproject.api.operations.item.getItemById.GetItemByIdOperation;
-import com.example.zoostoreproject.api.operations.item.getItemById.GetItemByIdOutput;
-import com.example.zoostoreproject.api.operations.item.getItemByDescription.GetItemByDescriptionOutput;
-import com.example.zoostoreproject.api.operations.item.removeTagFromItem.RemoveTagFromItemInput;
-import com.example.zoostoreproject.api.operations.item.removeTagFromItem.RemoveTagFromItemOperation;
-import com.example.zoostoreproject.api.operations.item.removeTagFromItem.RemoveTagFromItemOutput;
+import com.example.zoostoreproject.api.operations.item.addtag.AddTagToItemInput;
+import com.example.zoostoreproject.api.operations.item.addtag.AddTagToItemOperation;
+import com.example.zoostoreproject.api.operations.item.addtag.AddTagToItemOutput;
+import com.example.zoostoreproject.api.operations.item.archive.ArchiveItemInput;
+import com.example.zoostoreproject.api.operations.item.archive.ArchiveItemOutput;
+import com.example.zoostoreproject.api.operations.item.archive.ArchiveItemOperation;
+import com.example.zoostoreproject.api.operations.item.create.CreateItemInput;
+import com.example.zoostoreproject.api.operations.item.create.CreateItemOutput;
+import com.example.zoostoreproject.api.operations.item.create.CreateItemOperation;
+import com.example.zoostoreproject.api.operations.item.editproperties.EditItemPropertiesInput;
+import com.example.zoostoreproject.api.operations.item.editproperties.EditItemPropertiesOperation;
+import com.example.zoostoreproject.api.operations.item.editproperties.EditItemPropertiesOutput;
+import com.example.zoostoreproject.api.operations.item.get.allitems.GetAllItemsListInput;
+import com.example.zoostoreproject.api.operations.item.get.allitems.GetAllItemsListOutput;
+import com.example.zoostoreproject.api.operations.item.get.allitems.GetAllItemsOperation;
+import com.example.zoostoreproject.api.operations.cartitem.getproperties.GetCartItemPropertiesInput;
+import com.example.zoostoreproject.api.operations.cartitem.getproperties.GetCartItemPropertiesOperation;
+import com.example.zoostoreproject.api.operations.cartitem.getproperties.GetCartItemPropertiesOutput;
+import com.example.zoostoreproject.api.operations.item.get.bydescription.GetItemByDescriptionInput;
+import com.example.zoostoreproject.api.operations.item.get.bydescription.GetItemByDescriptionOperation;
+import com.example.zoostoreproject.api.operations.item.get.byid.GetItemByIdInput;
+import com.example.zoostoreproject.api.operations.item.get.byid.GetItemByIdOperation;
+import com.example.zoostoreproject.api.operations.item.get.byid.GetItemByIdOutput;
+import com.example.zoostoreproject.api.operations.item.get.bydescription.GetItemByDescriptionOutput;
+import com.example.zoostoreproject.api.operations.item.get.bytagtitle.GetItemsIdByTagTitleInput;
+import com.example.zoostoreproject.api.operations.item.get.bytagtitle.GetItemsIdByTagTitleOperation;
+import com.example.zoostoreproject.api.operations.item.get.bytagtitle.GetItemsIdByTagTitleOutput;
+import com.example.zoostoreproject.api.operations.item.removetag.RemoveTagFromItemInput;
+import com.example.zoostoreproject.api.operations.item.removetag.RemoveTagFromItemOperation;
+import com.example.zoostoreproject.api.operations.item.removetag.RemoveTagFromItemOutput;
+import com.example.zoostoreproject.api.operations.item.warrantycardvalidation.WarrantyCardValidationInput;
+import com.example.zoostoreproject.api.operations.item.warrantycardvalidation.WarrantyCardValidationOperation;
+import com.example.zoostoreproject.api.operations.item.warrantycardvalidation.WarrantyCardValidationOutput;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -40,7 +46,6 @@ import org.springframework.web.bind.annotation.*;
 @RequiredArgsConstructor
 public class ItemController {
 
-
     private final CreateItemOperation createItemOperation;
     private final ArchiveItemOperation archiveItemOperation;
     private final EditItemPropertiesOperation editItemPropertiesOperation;
@@ -48,8 +53,10 @@ public class ItemController {
     private final RemoveTagFromItemOperation removeTagFromItemOperation;
     private final GetAllItemsOperation getAllItemsOperation;
     private final GetItemByIdOperation getItemByIdOperation;
+    private final GetItemsIdByTagTitleOperation getItemsIdByTagTitleOperation;
     private final GetItemByDescriptionOperation getItemByDescriptionOperation;
     private final GetCartItemPropertiesOperation getCartItemPropertiesOperation;
+    private final WarrantyCardValidationOperation warrantyCardValidationOperation;
 
 
     @PostMapping()
@@ -94,9 +101,9 @@ public class ItemController {
             @ApiResponse(responseCode = "400", description = "Invalid ID supplied"),
             @ApiResponse(responseCode = "404", description = "Customer not found")})
     @GetMapping(path = "/getAll")
-    public ResponseEntity<GetAllItemsListOutput> getAllItems(@Valid @RequestBody GetAllItemsListInput input) {
+    public ResponseEntity<GetAllItemsListOutput> getAllItems() {
 
-        GetAllItemsListOutput response = getAllItemsOperation.process(input);
+        GetAllItemsListOutput response = getAllItemsOperation.process(GetAllItemsListInput.builder().build());
         return ResponseEntity.ok(response);
     }
 
@@ -106,22 +113,26 @@ public class ItemController {
         GetItemByIdOutput response = getItemByIdOperation.process(input);
         return ResponseEntity.ok(response);
     }
-    @PostMapping(path = "/{cartItemProperties}")
+
+    @PostMapping(path = "/cartItemProperties")
     public ResponseEntity<GetCartItemPropertiesOutput> getCartItemProperties(@Valid @RequestBody GetCartItemPropertiesInput input) {
         GetCartItemPropertiesOutput response = getCartItemPropertiesOperation.process(input);
         return ResponseEntity.ok(response);
     }
-    @GetMapping(path = "/tagTitle")
-    public ResponseEntity<GetItemByDescriptionOutput> getItemByTitleTag(
-            @RequestParam(name = "title") String title,
-            @RequestParam(name = "itemsPerPage") Integer itemsPerPage,
-            @RequestParam(name = "currentPage") Integer currentPage) {
 
-        GetItemByDescriptionInput input = GetItemByDescriptionInput.builder()
-                .regex(title)
-                .itemCount(itemsPerPage)
-                .page(currentPage)
-                .build();
+    @PostMapping(path = "/warrantyValidation")
+    public ResponseEntity<WarrantyCardValidationOutput> warrantyValidation(@Valid @RequestBody WarrantyCardValidationInput input) {
+        WarrantyCardValidationOutput response = warrantyCardValidationOperation.process(input);
+        return ResponseEntity.ok(response);
+    }
+
+    @PostMapping(path = "/byTagTitle")
+    public ResponseEntity<GetItemsIdByTagTitleOutput> getItemByTitleTag(@Valid @RequestBody GetItemsIdByTagTitleInput input) {
+        GetItemsIdByTagTitleOutput response= getItemsIdByTagTitleOperation.process(input);
+        return ResponseEntity.ok(response);
+    }
+    @PostMapping(path = "/description")
+    public ResponseEntity<GetItemByDescriptionOutput> getItemByDescriptionRegex(@Valid @RequestBody GetItemByDescriptionInput input){
 
         GetItemByDescriptionOutput response = getItemByDescriptionOperation.process(input);
         return ResponseEntity.ok(response);

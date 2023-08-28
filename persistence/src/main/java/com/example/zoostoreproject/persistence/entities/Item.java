@@ -21,7 +21,7 @@ public class Item {
     @Column(name = "id")
     private UUID id;
 
-    @Column(name = "product_name", nullable = false,unique = true)
+    @Column(name = "product_name", nullable = false, unique = true)
     private String productName;
 
     @Column(name = "description", nullable = false)
@@ -44,5 +44,13 @@ public class Item {
 
     @Column(columnDefinition = "boolean default false")
     private boolean archived;
+
+    @Column(nullable = false)
+    private Integer warrantyPeriod;
+
+
+
+
+
 
 }

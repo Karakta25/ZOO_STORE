@@ -1,20 +1,20 @@
 package com.example.zoostoreproject.rest.controllers;
 
-import com.example.zoostoreproject.api.operations.multimedia.addItemMultimedia.AddItemMultimediaInput;
-import com.example.zoostoreproject.api.operations.multimedia.addItemMultimedia.AddItemMultimediaOutput;
-import com.example.zoostoreproject.api.operations.multimedia.addItemMultimedia.AddItemMultimediaOperation;
-import com.example.zoostoreproject.api.operations.multimedia.getMultimediaByItemId.GetMultimediaByItemIdInput;
-import com.example.zoostoreproject.api.operations.multimedia.getMultimediaByItemId.GetMultimediaByItemIdOutput;
-import com.example.zoostoreproject.api.operations.multimedia.getMultimediaByItemId.GetMultimediaByItemIdOperation;
-import com.example.zoostoreproject.api.operations.multimedia.getMultimediaById.GetMultimediaByIdInput;
-import com.example.zoostoreproject.api.operations.multimedia.getMultimediaById.GetMultimediaByIdOutput;
-import com.example.zoostoreproject.api.operations.multimedia.getMultimediaById.GetMultimediaByIdOperation;
-import com.example.zoostoreproject.api.operations.multimedia.removeItemMultimedia.RemoveItemMultimediaInput;
-import com.example.zoostoreproject.api.operations.multimedia.removeItemMultimedia.RemoveItemMultimediaOutput;
-import com.example.zoostoreproject.api.operations.multimedia.removeItemMultimedia.RemoveItemMultimediaOperation;
-import com.example.zoostoreproject.api.operations.multimedia.replaceItemMultimedia.ReplaceItemMultimediaInput;
-import com.example.zoostoreproject.api.operations.multimedia.replaceItemMultimedia.ReplaceItemMultimediaOutput;
-import com.example.zoostoreproject.api.operations.multimedia.replaceItemMultimedia.ReplaceItemMultimediaOperation;
+import com.example.zoostoreproject.api.operations.multimedia.add.AddItemMultimediaInput;
+import com.example.zoostoreproject.api.operations.multimedia.add.AddItemMultimediaOutput;
+import com.example.zoostoreproject.api.operations.multimedia.add.AddItemMultimediaOperation;
+import com.example.zoostoreproject.api.operations.multimedia.get.byitemid.GetMultimediaByItemIdInput;
+import com.example.zoostoreproject.api.operations.multimedia.get.byitemid.GetMultimediaByItemIdOutput;
+import com.example.zoostoreproject.api.operations.multimedia.get.byitemid.GetMultimediaByItemIdOperation;
+import com.example.zoostoreproject.api.operations.multimedia.get.byid.GetMultimediaByIdInput;
+import com.example.zoostoreproject.api.operations.multimedia.get.byid.GetMultimediaByIdOutput;
+import com.example.zoostoreproject.api.operations.multimedia.get.byid.GetMultimediaByIdOperation;
+import com.example.zoostoreproject.api.operations.multimedia.remove.RemoveItemMultimediaInput;
+import com.example.zoostoreproject.api.operations.multimedia.remove.RemoveItemMultimediaOutput;
+import com.example.zoostoreproject.api.operations.multimedia.remove.RemoveItemMultimediaOperation;
+import com.example.zoostoreproject.api.operations.multimedia.replace.ReplaceItemMultimediaInput;
+import com.example.zoostoreproject.api.operations.multimedia.replace.ReplaceItemMultimediaOutput;
+import com.example.zoostoreproject.api.operations.multimedia.replace.ReplaceItemMultimediaOperation;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;

@@ -1,40 +1,56 @@
 package com.example.zoostoreproject.restExport;
 
 
-import com.example.zoostoreproject.api.operations.item.addTagToItem.AddTagToItemInput;
-import com.example.zoostoreproject.api.operations.item.addTagToItem.AddTagToItemOutput;
-import com.example.zoostoreproject.api.operations.item.archiveItem.ArchiveItemInput;
-import com.example.zoostoreproject.api.operations.item.archiveItem.ArchiveItemOutput;
-import com.example.zoostoreproject.api.operations.item.createItem.CreateItemInput;
-import com.example.zoostoreproject.api.operations.item.createItem.CreateItemOutput;
-import com.example.zoostoreproject.api.operations.item.editItemProperties.EditItemPropertiesInput;
-import com.example.zoostoreproject.api.operations.item.editItemProperties.EditItemPropertiesOutput;
-import com.example.zoostoreproject.api.operations.item.getAllItems.GetAllItemsListInput;
-import com.example.zoostoreproject.api.operations.item.getAllItems.GetAllItemsListOutput;
-import com.example.zoostoreproject.api.operations.item.getCartItemProperties.GetCartItemPropertiesInput;
-import com.example.zoostoreproject.api.operations.item.getCartItemProperties.GetCartItemPropertiesOutput;
-import com.example.zoostoreproject.api.operations.item.getItemById.GetItemByIdOutput;
-import com.example.zoostoreproject.api.operations.item.removeTagFromItem.RemoveTagFromItemInput;
-import com.example.zoostoreproject.api.operations.item.removeTagFromItem.RemoveTagFromItemOutput;
-import com.example.zoostoreproject.api.operations.item.getItemByDescription.GetItemByDescriptionOutput;
+import com.example.zoostoreproject.api.operations.item.addtag.AddTagToItemInput;
+import com.example.zoostoreproject.api.operations.item.addtag.AddTagToItemOutput;
+import com.example.zoostoreproject.api.operations.item.archive.ArchiveItemInput;
+import com.example.zoostoreproject.api.operations.item.archive.ArchiveItemOutput;
+import com.example.zoostoreproject.api.operations.item.create.CreateItemInput;
+import com.example.zoostoreproject.api.operations.item.create.CreateItemOutput;
+import com.example.zoostoreproject.api.operations.item.editproperties.EditItemPropertiesInput;
+import com.example.zoostoreproject.api.operations.item.editproperties.EditItemPropertiesOutput;
+import com.example.zoostoreproject.api.operations.item.get.allitems.GetAllItemsListInput;
+import com.example.zoostoreproject.api.operations.item.get.allitems.GetAllItemsListOutput;
+import com.example.zoostoreproject.api.operations.cartitem.getproperties.GetCartItemPropertiesInput;
+import com.example.zoostoreproject.api.operations.cartitem.getproperties.GetCartItemPropertiesOutput;
+import com.example.zoostoreproject.api.operations.item.get.bydescription.GetItemByDescriptionInput;
+import com.example.zoostoreproject.api.operations.item.get.byid.GetItemByIdOutput;
+import com.example.zoostoreproject.api.operations.item.get.bytagtitle.GetItemsIdByTagTitleInput;
+import com.example.zoostoreproject.api.operations.item.get.bytagtitle.GetItemsIdByTagTitleOutput;
+import com.example.zoostoreproject.api.operations.item.removetag.RemoveTagFromItemInput;
+import com.example.zoostoreproject.api.operations.item.removetag.RemoveTagFromItemOutput;
+import com.example.zoostoreproject.api.operations.item.get.bydescription.GetItemByDescriptionOutput;
+import com.example.zoostoreproject.api.operations.item.warrantycardvalidation.WarrantyCardValidationInput;
+import com.example.zoostoreproject.api.operations.item.warrantycardvalidation.WarrantyCardValidationOutput;
+import com.example.zoostoreproject.api.operations.tags.get.bytitle.GetItemTagByTitleInput;
+import com.example.zoostoreproject.api.operations.tags.get.bytitle.GetItemTagByTitleOutput;
 import feign.Headers;
 import feign.Param;
 import feign.RequestLine;
 
+import java.util.Optional;
 
 
 @Headers({"Content-Type: application/json"})
 public interface ZooStoreRestClient {
 
-
    @RequestLine("GET /item/{id}")
    GetItemByIdOutput getItemById(@Param String id);
 
-   @RequestLine("GET /item/tagTitle?title={title}&itemsPerPage={itemsPerPage}&currentPage={currentPage}")
-   GetItemByDescriptionOutput getItemByTitleTag(@Param String title, @Param Integer itemsPerPage, @Param Integer currentPage);
+   @RequestLine("POST /item/description")
+   GetItemByDescriptionOutput getItemByDescriptionRegex(GetItemByDescriptionInput input);
+   //GET /item/tagTitle?title={title}&itemsPerPage={itemsPerPage}&currentPage={currentPage}"
+
+   @RequestLine("POST /item/byTagTitle")
+   GetItemsIdByTagTitleOutput getItemsByTagTitle(GetItemsIdByTagTitleInput input);
+
+   @RequestLine("GET /tag/title/{title}")
+   GetItemTagByTitleOutput getItemTagByTagTitle(@Param String title);
 
    @RequestLine("POST /item")
-   CreateItemOutput createItem(@Param CreateItemInput input);
+   CreateItemOutput createItem(CreateItemInput input);
+   @RequestLine("POST /item/warrantyValidation")
+   WarrantyCardValidationOutput warrantyValidation(WarrantyCardValidationInput input);
 
    @RequestLine("PATCH /item/archiveStatus")
    ArchiveItemOutput archiveItem(@Param ArchiveItemInput input);
@@ -52,7 +68,7 @@ public interface ZooStoreRestClient {
    GetCartItemPropertiesOutput getCartItemProperties(GetCartItemPropertiesInput input);
 
    @RequestLine("GET /item/getAll")
-   GetAllItemsListOutput getAllItems(@Param GetAllItemsListInput input);
+   GetAllItemsListOutput getAllItems();
 
 
 }

@@ -1,20 +1,23 @@
 package com.example.zoostoreproject.rest.controllers;
 
-import com.example.zoostoreproject.api.operations.tags.addTag.AddTagInput;
-import com.example.zoostoreproject.api.operations.tags.addTag.AddTagOutput;
-import com.example.zoostoreproject.api.operations.tags.addTag.AddTagOperation;
-import com.example.zoostoreproject.api.operations.tags.getAllItemTags.GetAllItemTagsInput;
-import com.example.zoostoreproject.api.operations.tags.getAllItemTags.GetAllItemTagsOutput;
-import com.example.zoostoreproject.api.operations.tags.getAllItemTags.GetAllItemTagsOperation;
-import com.example.zoostoreproject.api.operations.tags.getItemTagById.GetItemTagByIdInput;
-import com.example.zoostoreproject.api.operations.tags.getItemTagById.GetItemTagByIdOutput;
-import com.example.zoostoreproject.api.operations.tags.getItemTagById.GetItemTagByIdOperation;
-import com.example.zoostoreproject.api.operations.tags.removeItemTags.RemoveItemTagsInput;
-import com.example.zoostoreproject.api.operations.tags.removeItemTags.RemoveItemTagsOutput;
-import com.example.zoostoreproject.api.operations.tags.removeItemTags.RemoveItemTagsOperation;
-import com.example.zoostoreproject.api.operations.tags.replaceTagName.ReplaceTagNameInput;
-import com.example.zoostoreproject.api.operations.tags.replaceTagName.ReplaceTagNameOutput;
-import com.example.zoostoreproject.api.operations.tags.replaceTagName.ReplaceTagNameOperation;
+import com.example.zoostoreproject.api.operations.tags.add.AddTagInput;
+import com.example.zoostoreproject.api.operations.tags.add.AddTagOutput;
+import com.example.zoostoreproject.api.operations.tags.add.AddTagOperation;
+import com.example.zoostoreproject.api.operations.tags.get.alltags.GetAllItemTagsInput;
+import com.example.zoostoreproject.api.operations.tags.get.alltags.GetAllItemTagsOutput;
+import com.example.zoostoreproject.api.operations.tags.get.alltags.GetAllItemTagsOperation;
+import com.example.zoostoreproject.api.operations.tags.get.byid.GetItemTagByIdInput;
+import com.example.zoostoreproject.api.operations.tags.get.byid.GetItemTagByIdOutput;
+import com.example.zoostoreproject.api.operations.tags.get.byid.GetItemTagByIdOperation;
+import com.example.zoostoreproject.api.operations.tags.get.bytitle.GetItemTagByTitleInput;
+import com.example.zoostoreproject.api.operations.tags.get.bytitle.GetItemTagByTitleOperation;
+import com.example.zoostoreproject.api.operations.tags.get.bytitle.GetItemTagByTitleOutput;
+import com.example.zoostoreproject.api.operations.tags.remove.RemoveItemTagsInput;
+import com.example.zoostoreproject.api.operations.tags.remove.RemoveItemTagsOutput;
+import com.example.zoostoreproject.api.operations.tags.remove.RemoveItemTagsOperation;
+import com.example.zoostoreproject.api.operations.tags.replacename.ReplaceTagNameInput;
+import com.example.zoostoreproject.api.operations.tags.replacename.ReplaceTagNameOutput;
+import com.example.zoostoreproject.api.operations.tags.replacename.ReplaceTagNameOperation;
 
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -31,8 +34,7 @@ public class TagsController {
     private final ReplaceTagNameOperation replaceTagNameOperation;
     private final GetAllItemTagsOperation getAllItemTagsOperation;
     private final GetItemTagByIdOperation getItemTagByIdOperation;
-
-
+    private final GetItemTagByTitleOperation getItemTagByTitleOperation;
 
 
     @PostMapping()
@@ -40,6 +42,14 @@ public class TagsController {
 
         AddTagOutput response = addTagOperation.process(input);
         return ResponseEntity.status(201).body(response);
+    }
+
+    @GetMapping("/title/{title}")
+    public ResponseEntity<GetItemTagByTitleOutput> getItemTagByTagTitle(@PathVariable String title)  {
+
+        GetItemTagByTitleInput input = GetItemTagByTitleInput.builder().tagTitle(title).build();
+        GetItemTagByTitleOutput response = getItemTagByTitleOperation.process(input);
+        return ResponseEntity.ok(response);
     }
 
     @DeleteMapping()
@@ -50,7 +60,7 @@ public class TagsController {
     }
 
 
-    @GetMapping(path = "/getAll")
+    @PostMapping(path = "/getAll")
     public ResponseEntity<GetAllItemTagsOutput> getAllTags(@Valid @RequestBody GetAllItemTagsInput input) {
 
         GetAllItemTagsOutput response = getAllItemTagsOperation.process(input);

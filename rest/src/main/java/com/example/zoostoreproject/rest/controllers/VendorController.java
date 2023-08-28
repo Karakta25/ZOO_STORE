@@ -1,21 +1,21 @@
 package com.example.zoostoreproject.rest.controllers;
 
 
-import com.example.zoostoreproject.api.operations.vendor.addVendor.AddVendorInput;
-import com.example.zoostoreproject.api.operations.vendor.addVendor.AddVendorOutput;
-import com.example.zoostoreproject.api.operations.vendor.addVendor.AddVendorOperation;
-import com.example.zoostoreproject.api.operations.vendor.editVendorProperties.EditVendorPropertiesInput;
-import com.example.zoostoreproject.api.operations.vendor.editVendorProperties.EditVendorPropertiesOperation;
-import com.example.zoostoreproject.api.operations.vendor.editVendorProperties.EditVendorPropertiesOutput;
-import com.example.zoostoreproject.api.operations.vendor.getAllVendors.GetAllVendorsInput;
-import com.example.zoostoreproject.api.operations.vendor.getAllVendors.GetAllVendorsOutput;
-import com.example.zoostoreproject.api.operations.vendor.getAllVendors.GetAllVendorsOperation;
-import com.example.zoostoreproject.api.operations.vendor.getVendorById.GetVendorByIdInput;
-import com.example.zoostoreproject.api.operations.vendor.getVendorById.GetVendorByIdOutput;
-import com.example.zoostoreproject.api.operations.vendor.getVendorById.GetVendorByIdOperation;
-import com.example.zoostoreproject.api.operations.vendor.removeVendor.RemoveVendorInput;
-import com.example.zoostoreproject.api.operations.vendor.removeVendor.RemoveVendorOutput;
-import com.example.zoostoreproject.api.operations.vendor.removeVendor.RemoveVendorOperation;
+import com.example.zoostoreproject.api.operations.vendor.add.AddVendorInput;
+import com.example.zoostoreproject.api.operations.vendor.add.AddVendorOutput;
+import com.example.zoostoreproject.api.operations.vendor.add.AddVendorOperation;
+import com.example.zoostoreproject.api.operations.vendor.editproperties.EditVendorPropertiesInput;
+import com.example.zoostoreproject.api.operations.vendor.editproperties.EditVendorPropertiesOperation;
+import com.example.zoostoreproject.api.operations.vendor.editproperties.EditVendorPropertiesOutput;
+import com.example.zoostoreproject.api.operations.vendor.get.allvendors.GetAllVendorsInput;
+import com.example.zoostoreproject.api.operations.vendor.get.allvendors.GetAllVendorsOutput;
+import com.example.zoostoreproject.api.operations.vendor.get.allvendors.GetAllVendorsOperation;
+import com.example.zoostoreproject.api.operations.vendor.get.byid.GetVendorByIdInput;
+import com.example.zoostoreproject.api.operations.vendor.get.byid.GetVendorByIdOutput;
+import com.example.zoostoreproject.api.operations.vendor.get.byid.GetVendorByIdOperation;
+import com.example.zoostoreproject.api.operations.vendor.remove.RemoveVendorInput;
+import com.example.zoostoreproject.api.operations.vendor.remove.RemoveVendorOutput;
+import com.example.zoostoreproject.api.operations.vendor.remove.RemoveVendorOperation;
 
 import jakarta.validation.Valid;
 import jakarta.validation.constraints.NotNull;
@@ -59,8 +59,8 @@ public class VendorController {
     }
 
     @GetMapping(path = "/getAll")
-    public ResponseEntity<GetAllVendorsOutput> getAllVendors(@Valid @RequestBody GetAllVendorsInput input) {
-        GetAllVendorsOutput response = getAllVendorsOperation.process(input);
+    public ResponseEntity<GetAllVendorsOutput> getAllVendors() {
+        GetAllVendorsOutput response = getAllVendorsOperation.process(GetAllVendorsInput.builder().build());
         return ResponseEntity.ok(response);
     }
 

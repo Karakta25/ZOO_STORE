@@ -8,11 +8,13 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.UUID;
 
 public interface ItemRepository extends JpaRepository<Item, UUID> {
 
     Page<Item> findItemsByTagsContaining(Tag tag, Pageable pageable);
+
     @Query(value = """
             SELECT *
             FROM items i
